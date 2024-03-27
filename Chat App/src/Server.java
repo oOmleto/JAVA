@@ -9,23 +9,16 @@ import java.net.Socket;
 import java.util.*;
 import java.text.*;
 import java.io.*;
-
-
 public class Server  implements ActionListener {
-
     private JTextField text1;
      private JPanel a1;
      static Box vertical = Box.createVerticalBox();
 
-    static JFrame f =new JFrame();
+    static JFrame f =new JFrame("Chat GUI");
     static DataOutputStream dataout;
-
-
     Server() {
 
         f.setLayout(null);
-
-
 
         JPanel p1 = new JPanel();
         p1.setBackground(new Color(84, 0, 15));
@@ -33,7 +26,7 @@ public class Server  implements ActionListener {
         p1.setLayout(null);
         f.add(p1);
 
-        ImageIcon im1 = new ImageIcon(ClassLoader.getSystemResource("image\\3.png"));
+        ImageIcon im1 = new ImageIcon(ClassLoader.getSystemResource("image/3.png"));
         Image im2 = im1.getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT);
         ImageIcon im3 = new ImageIcon(im2);
         JLabel back = new JLabel(im3);
@@ -47,7 +40,7 @@ public class Server  implements ActionListener {
             }
         });
 
-        ImageIcon im4 = new ImageIcon(ClassLoader.getSystemResource("image\\images.png"));
+        ImageIcon im4 = new ImageIcon(ClassLoader.getSystemResource("image/images.png"));
         Image im5 = im4.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
         ImageIcon im6 = new ImageIcon(im5);
         JLabel proflie = new JLabel(im6);
@@ -78,22 +71,26 @@ public class Server  implements ActionListener {
         text1.setFont(new Font("Angsana New", Font.BOLD, 18));
         f.add(text1);
 
+        text1.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode()==KeyEvent.VK_ENTER) {
+                    actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
+                }
+            }
+        });
+
         a1 = new JPanel();
         a1.setBounds(5, 75, 425, 500);
         f.add(a1);
-
-
 
         f.setSize(450, 700);
         f.setLocation(200, 50);
         f.getContentPane().setBackground(Color.WHITE);
 
-
         f.setVisible(true);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        f.setResizable(false);
     }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
@@ -113,23 +110,17 @@ public class Server  implements ActionListener {
                 a1.add(vertical, BorderLayout.PAGE_START);
 
                 dataout.writeUTF(out);
-
                 text1.setText("");
 
                 f.repaint();
                 f.invalidate();
                 f.validate();
 
-
             }
             }catch(IOException ex){
                 ex.printStackTrace();
-
             }
         }
-
-
-
     public static JPanel formatLabel(String out) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -140,7 +131,6 @@ public class Server  implements ActionListener {
         output.setFont(new Font("Angsana New", Font.BOLD, 18));
         output.setBorder(new EmptyBorder(10, 10, 10, 10));
         output.setForeground(Color.WHITE);
-
 
         panel.add(output);
 
